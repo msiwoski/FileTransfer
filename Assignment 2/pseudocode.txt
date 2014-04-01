@@ -1,0 +1,101 @@
+System::Void MyForm::MyForm_Load(System::Object^  sender, System::EventArgs^  e){
+	Set the WSAStartup
+}
+System::Void MyForm::clientButton_Click(System::Object^  sender, System::EventArgs^  e){
+	Send button is active
+	Receive button is unactive
+}
+System::Void MyForm::serverButton_Click(System::Object^  sender, System::EventArgs^  e){
+	Send button is unactive
+	Receive button is active
+}
+System::Void MyForm::openButton_Click(System::Object^  sender, System::EventArgs^  e){
+	Open the dialog box
+	Store the file into a buffer file
+}
+System::Void MyForm::saveButton_Click(System::Object^  sender, System::EventArgs^  e){
+	Open the save dialog box
+	Save the file to the system
+}
+System::Void MyForm::receiveButton_Click(System::Object^  sender, System::EventArgs^  e){
+	Initialize socket information
+	Store information in control packet
+	If TCP is selected
+		Create a socket for TCP
+	else
+		Create a socket for UDP
+	Bind on the newly created socket
+	if TCP
+		Listen on the socket
+		create a thread for TCP
+	else
+		create a thread for UDP
+}
+System::Void MyForm::sendButton_Click(System::Object^  sender, System::EventArgs^  e){
+	Initialize socket information
+	Store information in control packet
+	Create an event
+	if TCP
+		Create a socket for TCP
+		Connect the socket
+		Send the control packet
+		create the thread for TCP
+	else
+		Create a socket for UDP
+		Send the control packet
+		Create the thread for UDP
+}
+DWORD WINAPI TCPWorkerThread(LPVOID){
+	while true{
+		Accept the socket
+		Initialize all the socket information
+		WSARecv and pass in the TCPCtrlWorkerRoutine
+		Wait for multiple events
+		Reset the event
+	}
+	return true;
+}
+DWORD WINAPI UDPWorkerThread(LPVOID){
+	Initialize all the socket information
+	WSARecvFrom and pass in the UDPCtrlWorkerRoutine
+	Wait for multiple events
+	Reset the event
+}
+VOID CALLBACK TCPCtrlWorkerRoutine(DWORD, DWORD, LPWSAOVERLAPPED, DWORD){
+	Get the control packet information and save it in a struct
+	WSARecv and pass in the TCPWorkerRoutine
+	Wait for multiple events
+	Reset the event
+}
+VOID CALLBACK TCPWorkerRoutine(DWORD, DWORD, LPWSAOVERLAPPED, DWORD){
+	if the packets received is the same as the control packet amount
+		print off the packet info
+	WSARecv (pass in the TCPWorkerRoutine
+	Wait for multiple events
+	Reset the event
+}
+VOID CALLBACK UDPCtrlWorkerRoutine(DWORD, DWORD, LPWSAOVERLAPPED, DWORD){
+	Get the control packet information and save it in a struct
+	WSARecvFrom and pass in the UDPWorkerRoutine
+	Wait for multiple events
+	Reset the event
+}
+VOID CALLBACK UDPWorkerRoutine(DWORD, DWORD, LPWSAOVERLAPPED, DWORD){
+	if the packets received is the same as the control packet amount
+		print off the packet info
+	WSARecvFrom and pass in the UDPWorkerRoutine
+	Wait for multiple events
+	Reset the event
+}
+DWORD WINAPI TCPSenderThread(LPVOID){
+	If packets sent is less than the amount set by the user
+		Send the packet
+		Wait for multiple events
+		Reset event	
+}
+DWORD WINAPI UDPSenderThread(LPVOID){
+	If packets sent is less than the amount set by the user
+		Send the packet
+		Wait for multiple events
+		Reset event	
+}
